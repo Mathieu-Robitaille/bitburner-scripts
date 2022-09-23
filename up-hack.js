@@ -1,5 +1,3 @@
-/* the better version of the script used to make BN9 easier */
-
 /** @param {NS} ns */
 export async function main(ns) {
 	var done = false;

@@ -1,9 +1,10 @@
 /** @param {NS} ns */
 export async function main(ns) {
+	var all_servers = {};
 	for (const server of get_all_servers(ns)) {
-		ns.killall(server);
+		all_servers[server] = ns.scan(server);
 	}
-	ns.toast("Killed all scripts", "success");
+	ns.tprint(all_servers);
 }
 
 function get_all_servers(ns) {

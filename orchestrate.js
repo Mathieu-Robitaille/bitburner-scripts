@@ -10,7 +10,7 @@ const HACK_SCRIPT = "/orch/hack.js";
 /** @param {NS} ns */
 export async function main(ns) {
 	ns.disableLog('ALL');
-	const DELAY = 1000;
+	const DELAY = 500;
 	const PLAYER = ns.getPlayer();
 	const TARGET = ns.args[0];
 	const TARGET_OBJ = ns.getServer(TARGET);
@@ -25,10 +25,10 @@ export async function main(ns) {
 	var hack_percent = formulasFacade.hackPercent(TARGET_OBJ, PLAYER) * 100;
 	var grow_percent = formulasFacade.growPercent(TARGET_OBJ, 1, PLAYER, 1);
 
-	var hack_threads = Math.round(50 / hack_percent);
-	var grow_threads = Math.round(2.3 / (grow_percent - 1));
+	var hack_threads = Math.ceil(Math.round(50 / hack_percent));
+	var grow_threads = Math.ceil(Math.round(2.3 / (grow_percent - 1)));
 
-	var weaken_threads =  (ns.getServerSecurityLevel(TARGET) - ns.getServerMinSecurityLevel(TARGET) + (grow_threads * 0.004)) / 0.05;
+	var weaken_threads =  Math.ceil((ns.getServerSecurityLevel(TARGET) - ns.getServerMinSecurityLevel(TARGET) + (grow_threads * 0.004)) / 0.05);
 
 	var weaken_time_start = 0;
 	var weaken2_time_start = 2 * DELAY;
@@ -98,7 +98,7 @@ async function issue_job(ns, script, threads, target, ram, type) {
 		if (ns.getServerMaxRam(serv) - ns.getServerUsedRam(serv) >= ram * threads) {
 			ns.print(`Starting ${type} job on ${target} from ${serv}.`)
 			await ns.scp([HACK_SCRIPT, GROW_SCRIPT, WEAKEN_SCRIPT], serv);
-			return ns.exec(script, serv, threads, target, uuidv4());
+			return ns.exec(script, serv, threads, target, threads, uuidv4());
 		}
 	}
 	ns.print(`Could not find server with enough ram, need ${ram * threads}`)

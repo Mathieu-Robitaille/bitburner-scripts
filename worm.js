@@ -1,3 +1,5 @@
+const RAM_FOR_THIS_SCRIPT = 4;
+const RAM_FOR_MINE = 2.35;
 const THIS_SCRIPT = "worm.js"
 const SCRIPT = "mine-targeted.js";
 const MY_SERVERS = ["home", 
@@ -12,8 +14,6 @@ const MY_SERVERS = ["home",
 					"hacknet-node-12", "hacknet-node-13", "hacknet-node-14", "hacknet-node-15",
 					"hacknet-node-16", "hacknet-node-17", "hacknet-node-18", "hacknet-node-19",
 					"hacknet-node-20"];
-
-					
 /** @param {NS} ns */
 export async function main(ns) {
 	const HOSTNAME = ns.getHostname();
